@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "static-server -p 1234 src"
   },
   "devDependencies": {
     "eslint": "^8.44.0",
@@ -18,7 +18,10 @@
     "eslint-plugin-standard": "^5.0.0",
     "prettier": "^3.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "nats.ws": "^1.16.1",
+    "static-server": "^2.2.1"
+  },
   "engines": {
     "node": ">=14"
   },
