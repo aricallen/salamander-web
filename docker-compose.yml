@@ -1,0 +1,10 @@
+version: "3.5"
+services:
+  nats:
+    image: nats:latest
+    volumes:
+      - ./nats:/container
+    ports:
+      - "4222:4222"
+      - "4224:4224"
+    command: "-c /container/nats.conf -js"

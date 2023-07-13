@@ -5,7 +5,7 @@ const sc = StringCodec();
 /**
  * TODO: allow user input to determine which servers to connect to
  */
-const DEFAULT_SERVERS = ['ws://localhost:9222'];
+const DEFAULT_SERVERS = ['ws://0.0.0.0:4224'];
 
 export const getConnection = async (servers) => {
   const conn = await connect({
