@@ -32,16 +32,18 @@ export const closeConnection = async (conn) => {
   }
 };
 
-const processSubMsg = async (sub) => {
+export const processMsgs = async (sub, cb) => {
   for await (const m of sub) {
-    console.log(`[${sub.getProcessed()}]: ${sc.decode(m.data)}`);
+    const msg = sc.decode(m.data);
+    console.log(`[${sub.getProcessed()}]: ${msg}`);
+    cb(msg);
   }
   console.log('subscription closed');
 };
 
-export const subscribe = async ({ conn, subject }) => {
+export const subscribe = ({ conn, subject }) => {
   const sub = conn.subscribe(subject);
-  processSubMsg(sub);
+  return sub;
 };
 
 export const publish = async ({ conn, subject, msg }) => {
