@@ -49,15 +49,23 @@ button {
   background-color: whitesmoke;
 }
 
+#content {
+  width: 60%;
+  margin: auto;
+}
+
+/**
+ * utility classes
+ */
+
+.mb-16 {
+  margin-bottom: 16px;
+}
+
 .instructions {
   display: inline-block;
   margin-bottom: 16px;
   font-size: 16px;
-}
-
-#content {
-  width: 60%;
-  margin: auto;
 }
 
 .row {

@@ -2,6 +2,16 @@ import { getConnection, processMsgs, subscribe } from './lib.js';
 
 let sub = null;
 
+const initSub = async (fields) => {
+  console.log(`attempting to connect to server: ${fields.url.value}`);
+  const conn = await getConnection([fields.url.value]);
+  sub = subscribe({ conn, subject: fields.subject.value });
+  processMsgs(sub, (msg) => {
+    fields.output.innerHTML += `<br/>[${sub.getProcessed()}]: ${msg}`;
+  });
+  return sub;
+};
+
 /**
  * init form fields and form state
  */
@@ -13,18 +23,14 @@ const init = async () => {
     results: document.getElementById('results'),
   };
 
-  console.log(`attempting to connect to server: ${fields.url.value}`);
-  const conn = await getConnection([fields.url.value]);
-
   // init listener for subscribing to a subject
   const trigger = document.getElementById('subscribe');
-  trigger.addEventListener('click', () => {
+  trigger.addEventListener('click', async () => {
     if (sub === null) {
-      sub = subscribe({ conn, subject: fields.subject.value });
-      processMsgs(sub, (msg) => {
-        fields.output.innerHTML += `<br/>[${sub.getProcessed()}]: ${msg}`;
-      });
-      trigger.innerText = 'Subscribed!';
+      sub = await initSub(fields);
+      if (sub) {
+        trigger.innerText = 'Subscribed!';
+      }
     }
   });
 };

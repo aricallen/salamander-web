@@ -42,6 +42,10 @@ export const processMsgs = async (sub, cb) => {
 };
 
 export const subscribe = ({ conn, subject }) => {
+  if (!conn) {
+    console.error(`attempting to subscribe with a null connection`);
+    return null;
+  }
   const sub = conn.subscribe(subject);
   return sub;
 };
