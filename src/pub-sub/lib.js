@@ -2,16 +2,20 @@ import { connect, StringCodec } from '../nats.js';
 
 const sc = StringCodec();
 
-/**
- * TODO: allow user input to determine which servers to connect to
- */
-const DEFAULT_SERVERS = ['ws://0.0.0.0:4224'];
-
 export const getConnection = async (servers) => {
-  const conn = await connect({
-    servers,
-  });
-  return conn;
+  try {
+    const conn = await connect({
+      servers,
+    });
+    console.log(`successfully connected to servers: ${servers.join(', ')}`);
+    return conn;
+  } catch (err) {
+    console.log({
+      message: `unable to connect to nats. Tried servers: ${servers.join(',')}`,
+      error: err,
+    });
+    return null;
+  }
 };
 
 export const closeConnection = async (conn) => {
@@ -41,14 +45,15 @@ export const subscribe = async ({ conn, subject }) => {
 };
 
 export const publish = async ({ conn, subject, msg }) => {
+  console.log(`publishing
+  to subject: '${subject}'
+  message: '${msg}'`);
   conn.publish(subject, sc.encode(msg));
 };
 
-export const testPubSub = async () => {
-  const conn = await getConnection(DEFAULT_SERVERS);
-  const subject = 'hello';
-  subscribe({ conn, subject });
-  publish({ conn, subject, msg: 'world!' });
-};
-
-testPubSub();
+// export const testPubSub = async () => {
+//   const conn = await getConnection(DEFAULT_SERVERS);
+//   const subject = 'hello';
+//   subscribe({ conn, subject });
+//   publish({ conn, subject, msg: 'world!' });
+// };

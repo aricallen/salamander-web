@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <header>
+    <h1>Salemander Web</h1>
+  </header>
+
+  <section>
+    Set a url and subject for subscribing to messages
+  </section>
+
+  <section class="controls">
+    <div class="row">
+      <div class="col">
+        <fieldset>
+          <label for="subject">
+            Nats Url
+          </label>
+          <input type="text" value="ws://0.0.0.0:4224" id="nats-url">
+        </fieldset>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <fieldset>
+          <label for="subject">
+            Subject
+          </label>
+          <input type="text" value="hello" id="subject">
+        </fieldset>
+      </div>
+      <div class="col">
+        <fieldset>
+          <label for="subject">
+            Subscribe
+          </label>
+          <button id="publish">Subscribe</button>
+        </fieldset>
+      </div>
+    </div>
+  </section>
+  <div id="result">
+    <h3>Messages will be printed below</h3>
+    <div id="output"></div>
+  </div>
+  <script type="module" src="./subscribe.js"></script>
+</body>
+</html>
