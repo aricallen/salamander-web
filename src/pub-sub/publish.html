@@ -1,50 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Salamander Web</title>
+  <link rel="stylesheet" href="../styles.css">
 </head>
+
 <body>
-  <header>
-    <h1>Salemander Web</h1>
-  </header>
+  <div class="content">
+    <header>
+      <h1>Salemander Web</h1>
+    </header>
 
-  <section>
-    Instructions go here...
-  </section>
+    <section>
+      <span class="instructions">
+        Set a nats url and subject to publish messages to.
+      </span>
+    </section>
 
-  <section class="controls">
-    <div class="row">
-      <div class="col">
-        <fieldset>
+    <section class="controls">
+      <div class="row">
+        <div class="col col-small">
           <label for="subject">
             Nats Url
           </label>
+        </div>
+        <div class="col">
           <input type="text" value="ws://0.0.0.0:4224" id="nats-url">
-        </fieldset>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <fieldset>
+
+      <div class="row">
+        <div class="col col-small">
           <label for="subject">
             Subject
           </label>
+        </div>
+        <div class="col">
           <input type="text" value="hello" id="subject">
-        </fieldset>
+        </div>
       </div>
-      <div class="col">
-        <fieldset>
-          <label for="subject">
+
+      <div class="row">
+        <div class="col col-small">
+          <label for="message">
             Message
           </label>
-          <input type="text" value="world" id="message">
-          <button id="publish">Publish</button>
-        </fieldset>
+        </div>
+        <div class="col">
+          <textarea type="text" value="world" id="message"></textarea>
+        </div>
       </div>
-    </div>
-  </section>
+
+      <div class="row">
+        <button id="publish">Publish</button>
+      </div>
+    </section>
+  </div>
+
   <script type="module" src="./publish.js"></script>
 </body>
+
 </html>

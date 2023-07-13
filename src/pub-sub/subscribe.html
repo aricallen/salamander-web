@@ -1,53 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Salamander Web</title>
+  <link rel="stylesheet" href="../styles.css">
 </head>
+
 <body>
-  <header>
-    <h1>Salemander Web</h1>
-  </header>
+  <div class="content">
 
-  <section>
-    Set a url and subject for subscribing to messages
-  </section>
+    <header>
+      <h1>Salemander Web</h1>
+    </header>
 
-  <section class="controls">
-    <div class="row">
-      <div class="col">
-        <fieldset>
+    <section>
+      <span class="instructions">
+        Set a url and subject for subscribing to messages
+      </span>
+    </section>
+
+    <section class="controls">
+      <div class="row">
+        <div class="col col-small">
           <label for="subject">
             Nats Url
           </label>
+        </div>
+        <div class="col">
           <input type="text" value="ws://0.0.0.0:4224" id="nats-url">
-        </fieldset>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <fieldset>
+
+      <div class="row">
+        <div class="col col-small">
           <label for="subject">
             Subject
           </label>
+        </div>
+        <div class="col">
           <input type="text" value="hello" id="subject">
-        </fieldset>
+        </div>
       </div>
-      <div class="col">
-        <fieldset>
+
+      <div class="row">
+        <div class="col col-small">
           <label for="subject">
             Subscribe
           </label>
-          <button id="subscribe">Go</button>
-        </fieldset>
+        </div>
       </div>
+
+      <div class="row">
+        <button id="subscribe">Go</button>
+      </div>
+
+    </section>
+
+    <div id="result">
+      <h3>Messages will be printed below</h3>
+      <div id="output"></div>
     </div>
-  </section>
-  <div id="result">
-    <h3>Messages will be printed below</h3>
-    <div id="output"></div>
   </div>
+
   <script type="module" src="./subscribe.js"></script>
 </body>
+
 </html>
