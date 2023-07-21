@@ -1,4 +1,4 @@
-import { tryConnect, publish, getDefaultNatsUrl, getConnection, tryDisconnect } from './lib.js';
+import { tryConnect, publish, getDefaultNatsUrl, getConnection, tryDisconnect, initConnectionCheck } from './lib.js';
 import { logger } from '../helpers.js';
 
 /**
@@ -22,16 +22,20 @@ const init = async () => {
     Message: '${fields.message.value}'`);
   });
 
-  // init listener for connecting to nats server
+  const statusElem = document.querySelector('.connected-status');
   const connectButton = document.getElementById('connect');
+
+  // init listener for connecting to nats server
   connectButton.addEventListener('click', async () => {
     const shouldConnect = connectButton.innerText === 'Connect';
     if (shouldConnect) {
-      tryConnect({ servers: [fields.url.value], connectButton, actionButton: publishButton });
+      tryConnect({ servers: [fields.url.value], statusElem, connectButton, actionButton: publishButton });
     } else {
-      tryDisconnect({ connectButton, actionButton: publishButton });
+      tryDisconnect({ statusElem, connectButton, actionButton: publishButton });
     }
   });
+
+  initConnectionCheck({ statusElem, connectButton, actionButton: publishButton, checkInterval: 5000 });
 };
 
 init();
