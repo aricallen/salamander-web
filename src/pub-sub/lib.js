@@ -74,40 +74,42 @@ const STATUS_CLASSES = {
   CONNECTED: 'connected',
   DISCONNECTED: 'disconnected',
 };
-const setToConnected = ({ statusElem, connectButton, actionButton }) => {
-  swapClasses({ elem: statusElem, prev: STATUS_CLASSES.DISCONNECTED, next: STATUS_CLASSES.CONNECTED });
-  actionButton.disabled = false;
-  connectButton.disabled = true;
+const setToConnected = ({ actionElems }) => {
+  swapClasses({ elem: actionElems.status, prev: STATUS_CLASSES.DISCONNECTED, next: STATUS_CLASSES.CONNECTED });
+  actionElems.action.disabled = false;
+  actionElems.connect.disabled = true;
+  actionElems.disconnect.disabled = false;
 };
 
-const setToDisconnected = ({ statusElem, connectButton, actionButton }) => {
-  swapClasses({ elem: statusElem, prev: STATUS_CLASSES.CONNECTED, next: STATUS_CLASSES.DISCONNECTED });
-  actionButton.disabled = true;
-  connectButton.disabled = false;
+const setToDisconnected = ({ actionElems }) => {
+  swapClasses({ elem: actionElems.status, prev: STATUS_CLASSES.CONNECTED, next: STATUS_CLASSES.DISCONNECTED });
+  actionElems.action.disabled = true;
+  actionElems.connect.disabled = false;
+  actionElems.disconnect.disabled = true;
 };
 
-const updateConnectionStatus = ({ statusElem, isConnected, connectButton, actionButton }) => {
+const updateConnectionStatus = ({ isConnected, actionElems }) => {
   if (isConnected) {
-    setToConnected({ statusElem, connectButton, actionButton });
+    setToConnected({ actionElems });
   } else {
-    setToDisconnected({ statusElem, connectButton, actionButton });
+    setToDisconnected({ actionElems });
   }
 };
 
-export const tryConnect = async ({ servers, statusElem, connectButton, actionButton }) => {
+export const tryConnect = async ({ servers, actionElems }) => {
   try {
     await connectToServers(servers);
-    updateConnectionStatus({ isConnected: true, statusElem, connectButton, actionButton });
+    updateConnectionStatus({ isConnected: true, actionElems });
   } catch (err) {
-    updateConnectionStatus({ isConnected: false, statusElem, connectButton, actionButton });
+    updateConnectionStatus({ isConnected: false, actionElems });
     logger.error(err);
   }
 };
 
-export const tryDisconnect = async ({ statusElem, connectButton, actionButton }) => {
+export const tryDisconnect = async ({ actionElems }) => {
   try {
     await closeConnection();
-    updateConnectionStatus({ isConnected: false, statusElem, connectButton, actionButton });
+    updateConnectionStatus({ isConnected: false, actionElems });
   } catch (err) {
     logger.error(`error trying to disconnect`);
   }
@@ -117,14 +119,14 @@ export const tryDisconnect = async ({ statusElem, connectButton, actionButton })
  * checks for connection status and updates app state at `checkInterval` rate
  * @param checkInterval how often to check in milliseconds
  */
-export const initConnectionCheck = ({ connectButton, statusElem, actionButton, checkInterval }) => {
+export const initConnectionCheck = ({ actionElems, checkInterval }) => {
   const conn = getConnection();
   if (conn) {
-    updateConnectionStatus({ isConnected: true, statusElem, connectButton, actionButton });
+    updateConnectionStatus({ isConnected: true, actionElems });
   } else {
-    updateConnectionStatus({ isConnected: false, statusElem, connectButton, actionButton });
+    updateConnectionStatus({ isConnected: false, actionElems });
   }
   setTimeout(() => {
-    initConnectionCheck({ connectButton, statusElem, actionButton, checkInterval });
+    initConnectionCheck({ actionElems, checkInterval });
   }, checkInterval);
 };

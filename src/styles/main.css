@@ -83,16 +83,22 @@ button {
   margin-bottom: 8px;
 }
 
-.connected-status {
+#connection-status {
   margin-left: 16px;
 }
 
-.connected-status.connected::before {
+#connection-status.connected::before {
   content: "🟢"
 }
 
-.connected-status.disconnected::before {
+#connection-status.disconnected::before {
   content: "🔴"
+}
+
+.instructions {
+  display: inline-block;
+  margin-bottom: 16px;
+  font-size: 16px;
 }
 
 /**
@@ -107,11 +113,13 @@ button {
   margin-top: 16px;
 }
 
-.instructions {
-  display: inline-block;
-  margin-bottom: 16px;
-  font-size: 16px;
+.justify-right {
+  justify-content: flex-end;
 }
+
+/**
+ * grid classes
+ */
 
 .row {
   display: flex;

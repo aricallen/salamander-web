@@ -33,7 +33,7 @@
         </div>
         <div class="col align-center">
           <button id="connect">Connect</button>
-          <div class="connected-status disconnected"></div>
+          <div id="connection-status" class="disconnected"></div>
         </div>
       </div>
 
@@ -61,8 +61,14 @@
     </section>
 
     <section class="mt-16">
-      <div class="row">
-        <button id="publish" disabled>Publish</button>
+      <div class="row grid">
+        <div class="col">
+          <button id="publish" disabled>Publish</button>
+        </div>
+
+        <div class="col justify-right">
+          <button id="disconnect">Disconnect</button>
+        </div>
       </div>
     </section>
 

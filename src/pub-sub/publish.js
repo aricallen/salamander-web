@@ -13,29 +13,32 @@ const init = async () => {
 
   fields.url.value = getDefaultNatsUrl();
 
+  const actionElems = {
+    status: document.querySelector('#connection-status'),
+    connect: document.getElementById('connect'),
+    disconnect: document.getElementById('disconnect'),
+    action: document.getElementById('publish'),
+  };
+
   // init listener for publishing a message
-  const publishButton = document.getElementById('publish');
-  publishButton.addEventListener('click', async () => {
+  actionElems.action.addEventListener('click', async () => {
     const conn = getConnection();
     publish({ conn, subject: fields.subject.value, msg: fields.message.value });
     logger.log(`Successfully published message to '${fields.subject.value}':<br/>
     Message: '${fields.message.value}'`);
   });
 
-  const statusElem = document.querySelector('.connected-status');
-  const connectButton = document.getElementById('connect');
-
   // init listener for connecting to nats server
-  connectButton.addEventListener('click', async () => {
-    const shouldConnect = connectButton.innerText === 'Connect';
-    if (shouldConnect) {
-      tryConnect({ servers: [fields.url.value], statusElem, connectButton, actionButton: publishButton });
-    } else {
-      tryDisconnect({ statusElem, connectButton, actionButton: publishButton });
-    }
+  actionElems.connect.addEventListener('click', async () => {
+    tryConnect({ servers: [fields.url.value], actionElems });
   });
 
-  initConnectionCheck({ statusElem, connectButton, actionButton: publishButton, checkInterval: 5000 });
+  actionElems.disconnect.addEventListener('click', async () => {
+    tryDisconnect({ servers: [fields.url.value], actionElems });
+  });
+
+
+  initConnectionCheck({ actionElems, checkInterval: 5000 });
 };
 
 init();
