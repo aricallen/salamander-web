@@ -24,7 +24,7 @@ input {
   border-width: 1px;
   padding-left: 8px;
   padding-right: 8px;
-  width: 50%;
+  width: 100%;
 }
 
 textarea {
@@ -33,7 +33,7 @@ textarea {
   border-width: 1px;
   padding-left: 8px;
   padding-right: 8px;
-  width: 50%;
+  width: 100%;
 }
 
 input, textarea, button {
@@ -69,19 +69,34 @@ button {
 }
 
 .row {
-  margin-bottom: 8px;
+  display: flex;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.row.grid {
+  display: grid;
+  grid-template-columns: 120px 400px 200px;
+}
+
+.col {
+  padding-right: 16px;
   display: flex;
   align-items: center;
 }
 
-.col {
-  flex: 1;
-}
-
-.col.col-small {
-  max-width: 120px;
-}
-
 .results {
   margin-top: 8px;
+}
+
+.connected-status {
+  margin-left: 16px;
+}
+
+.connected-status.connected::before {
+  content: "🟢"
+}
+
+.connected-status.disconnected::before {
+  content: "🔴"
 }

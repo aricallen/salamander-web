@@ -22,19 +22,23 @@
     </section>
 
     <section class="controls">
-      <div class="row">
-        <div class="col col-small">
+      <div class="row grid">
+        <div class="col">
           <label for="subject">
             Nats Url
           </label>
         </div>
         <div class="col">
-          <input type="text" value="ws://0.0.0.0:4224" id="nats-url">
+          <input type="text" value="" id="nats-url">
+        </div>
+        <div class="col align-center">
+          <button id="connect">Connect</button>
+          <div class="connected-status disconnected"></div>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col col-small">
+      <div class="row grid">
+        <div class="col">
           <label for="subject">
             Subject
           </label>
@@ -44,8 +48,8 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col col-small">
+      <div class="row grid">
+        <div class="col">
           <label for="message">
             Message
           </label>
@@ -54,9 +58,11 @@
           <textarea type="text" value="world" id="message"></textarea>
         </div>
       </div>
+    </section>
 
+    <section>
       <div class="row">
-        <button id="publish">Publish</button>
+        <button id="publish" disabled>Publish</button>
       </div>
       <div class="row">
         <div id="output"></div>
