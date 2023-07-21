@@ -14,7 +14,7 @@ const init = async () => {
   fields.url.value = getDefaultNatsUrl();
 
   const actionElems = {
-    status: document.querySelector('#connection-status'),
+    status: document.getElementById('connection-status'),
     connect: document.getElementById('connect'),
     disconnect: document.getElementById('disconnect'),
     action: document.getElementById('publish'),
@@ -36,7 +36,6 @@ const init = async () => {
   actionElems.disconnect.addEventListener('click', async () => {
     tryDisconnect({ servers: [fields.url.value], actionElems });
   });
-
 
   initConnectionCheck({ actionElems, checkInterval: 5000 });
 };

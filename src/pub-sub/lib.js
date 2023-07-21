@@ -39,7 +39,6 @@ export const closeConnection = async () => {
 export const processMsgs = async (sub, cb) => {
   for await (const m of sub) {
     const msg = sc.decode(m.data);
-    logger.log(`[${sub.getProcessed()}]: ${msg}`);
     cb(msg);
   }
   logger.log('subscription closed');

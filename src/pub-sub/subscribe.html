@@ -11,20 +11,19 @@
 
 <body>
   <div id="content">
-
     <header>
       <h1>Salemander Web</h1>
     </header>
 
     <section>
       <span class="instructions">
-        Set a url and subject for subscribing to messages
+        Set a nats url and subject to subscribe messages to.
       </span>
     </section>
 
     <section class="controls">
-      <div class="row">
-        <div class="col col-small">
+      <div class="row grid">
+        <div class="col">
           <label for="subject">
             Nats Url
           </label>
@@ -32,10 +31,14 @@
         <div class="col">
           <input type="text" value="" id="nats-url">
         </div>
+        <div class="col align-center">
+          <button id="connect">Connect</button>
+          <div id="connection-status" class="disconnected"></div>
+        </div>
       </div>
 
-      <div class="row">
-        <div class="col col-small">
+      <div class="row grid">
+        <div class="col">
           <label for="subject">
             Subject
           </label>
@@ -44,25 +47,29 @@
           <input type="text" value="hello" id="subject">
         </div>
       </div>
+    </section>
 
-      <div class="row">
-        <div class="col col-small">
-          <label for="subject">
-            Subscribe
-          </label>
-        </div>
+    <section class="mt-16">
+      <div class="row grid">
         <div class="col">
-          <button id="subscribe">Go</button>
+          <button id="subscribe" disabled>Subscribe</button>
         </div>
-      </div>
 
-      <div class="row">
+        <div class="col justify-right">
+          <button id="disconnect">Disconnect</button>
+        </div>
       </div>
     </section>
 
-    <section class="results">
-      <h3>Messages will be printed below</h3>
-      <div id="output"></div>
+    <section id="output-wrapper" class="mt-16">
+      <div class="output">
+        <h4>Log</h4>
+        <div id="logs"></div>
+      </div>
+      <div class="output">
+        <h4>Errors</h4>
+        <div id="errors"></div>
+      </div>
     </section>
   </div>
 

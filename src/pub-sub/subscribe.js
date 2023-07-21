@@ -1,13 +1,18 @@
-import { connectToServers, processMsgs, subscribe, getDefaultNatsUrl } from './lib.js';
+import { tryConnect, subscribe, processMsgs, getDefaultNatsUrl, tryDisconnect, initConnectionCheck, getConnection } from './lib.js';
+import { logger } from '../helpers.js';
 
-let sub = null;
+const _subs = [];
 
 const initSub = async (fields) => {
-  logger.log(`attempting to connect to server: ${fields.url.value}`);
-  const conn = await connectToServers([fields.url.value]);
-  sub = subscribe({ conn, subject: fields.subject.value });
+  const conn = getConnection();
+  if (!conn) {
+    const err = Error('trying to subscribe when not connected');
+    logger.error(err);
+    throw err;
+  }
+  const sub = subscribe({ conn, subject: fields.subject.value });
   processMsgs(sub, (msg) => {
-    fields.output.innerHTML += `<br/>[${sub.getProcessed()}]: ${msg}`;
+    logger.log(`[${sub.getSubject()}: ${sub.getProcessed()}]: '${msg}'`);
   });
   return sub;
 };
@@ -19,22 +24,38 @@ const init = async () => {
   const fields = {
     url: document.getElementById('nats-url'),
     subject: document.getElementById('subject'),
-    output: document.getElementById('output'),
-    results: document.getElementById('results'),
+  };
+
+  fields.url.value = getDefaultNatsUrl();
+
+  const actionElems = {
+    status: document.getElementById('connection-status'),
+    connect: document.getElementById('connect'),
+    disconnect: document.getElementById('disconnect'),
+    action: document.getElementById('subscribe'),
   };
 
   fields.url.value = getDefaultNatsUrl();
 
   // init listener for subscribing to a subject
-  const trigger = document.getElementById('subscribe');
-  trigger.addEventListener('click', async () => {
-    if (sub === null) {
-      sub = await initSub(fields);
-      if (sub) {
-        trigger.innerText = 'Subscribed!';
-      }
+  actionElems.action.addEventListener('click', async () => {
+    const sub = await initSub(fields);
+    if (sub) {
+      _subs.push(sub);
+      logger.log(`Successfully subscribed to: ${fields.subject.value}`);
     }
   });
+
+  // init listener for connecting to nats server
+  actionElems.connect.addEventListener('click', async () => {
+    tryConnect({ servers: [fields.url.value], actionElems });
+  });
+
+  actionElems.disconnect.addEventListener('click', async () => {
+    tryDisconnect({ servers: [fields.url.value], actionElems });
+  });
+
+  initConnectionCheck({ actionElems, checkInterval: 5000 });
 };
 
 init();
