@@ -7,9 +7,9 @@ Playground for several proof-of-concepts for interacting with nats server throug
 **Simple Pub-Sub**
 
 Example: [github pages](https://aricallen.github.io/salamander-web/)but
-`wss://demo.nats.io:8443` will be set as the default nats url
+`wss://demo.nats.io:8443` will be set as the default nats url.
 
-Or follow the instructions below to run locally
+Or follow the instructions below to run locally.
 
 ```sh
 # clone repo locally
