@@ -3,7 +3,7 @@ import { connectToServers, processMsgs, subscribe, getDefaultNatsUrl } from './l
 let sub = null;
 
 const initSub = async (fields) => {
-  console.log(`attempting to connect to server: ${fields.url.value}`);
+  logger.log(`attempting to connect to server: ${fields.url.value}`);
   const conn = await connectToServers([fields.url.value]);
   sub = subscribe({ conn, subject: fields.subject.value });
   processMsgs(sub, (msg) => {

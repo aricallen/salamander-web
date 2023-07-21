@@ -1,12 +1,5 @@
 import { tryConnect, publish, getDefaultNatsUrl, getConnection, tryDisconnect } from './lib.js';
-
-const updateOutput = (fields) => {
-  const output = document.getElementById('log');
-  output.innerHTML += `<p>
-    Successfully published message to '${fields.subject.value}':<br/>
-    Message: '${fields.message.value}'
-  </p>`;
-};
+import { logger } from '../helpers.js';
 
 /**
  * init form fields and form state
@@ -23,10 +16,10 @@ const init = async () => {
   // init listener for publishing a message
   const publishButton = document.getElementById('publish');
   publishButton.addEventListener('click', async () => {
-    console.log(`attempting to connect to server: ${fields.url.value}`);
     const conn = getConnection();
     publish({ conn, subject: fields.subject.value, msg: fields.message.value });
-    updateOutput(fields);
+    logger.log(`Successfully published message to '${fields.subject.value}':<br/>
+    Message: '${fields.message.value}'`);
   });
 
   // init listener for connecting to nats server

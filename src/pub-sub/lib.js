@@ -1,4 +1,5 @@
 import { connect, StringCodec } from '../nats.js';
+import { swapClasses, logger } from '../helpers.js';
 
 const sc = StringCodec();
 
@@ -9,11 +10,9 @@ const connectToServers = async (servers) => {
     _conn = await connect({
       servers,
     });
-    console.log(`successfully connected to servers: ${servers.join(', ')}`);
     return _conn;
   } catch (err) {
     const error = new Error(`unable to connect to nats. Tried servers: ${servers.join(',')}`);
-    console.log(error);
     throw error;
   }
 };
@@ -30,25 +29,25 @@ export const closeConnection = async () => {
   // check if the close was OK
   const err = await done;
   if (err) {
-    console.log(`error closing:`, err);
+    logger.log(`error closing:`, err);
     return;
   }
-  console.log(`successfully disconnected`);
+  logger.log(`successfully disconnected`);
   _conn = null;
 };
 
 export const processMsgs = async (sub, cb) => {
   for await (const m of sub) {
     const msg = sc.decode(m.data);
-    console.log(`[${sub.getProcessed()}]: ${msg}`);
+    logger.log(`[${sub.getProcessed()}]: ${msg}`);
     cb(msg);
   }
-  console.log('subscription closed');
+  logger.log('subscription closed');
 };
 
 export const subscribe = ({ conn, subject }) => {
   if (!conn) {
-    console.error(`attempting to subscribe with a null connection`);
+    logger.error(`attempting to subscribe with a null connection`);
     return null;
   }
   const sub = conn.subscribe(subject);
@@ -56,7 +55,7 @@ export const subscribe = ({ conn, subject }) => {
 };
 
 export const publish = async ({ conn, subject, msg }) => {
-  console.log(`publishing
+  logger.log(`publishing
   to subject: '${subject}'
   message: '${msg}'`);
   conn.publish(subject, sc.encode(msg));
@@ -74,14 +73,6 @@ export const getDefaultNatsUrl = () => {
   return isLocal ? DEFAULT_LOCAL_URL : DEFAULT_DEMO_URL;
 };
 
-/**
- * removes `prev` class and adds `next` class to `elem`
- */
-export const swapClasses = ({ elem, prev, next }) => {
-  elem.classList.remove(prev);
-  elem.classList.add(next);
-};
-
 const updateServerStatus = ({ isConnected }) => {
   const elem = document.querySelector('.connected-status');
   const prev = isConnected ? 'disconnected' : 'connected';
@@ -97,6 +88,7 @@ export const tryConnect = async ({ servers, connectButton, actionButton }) => {
     actionButton.disabled = false;
   } catch (err) {
     updateServerStatus({ isConnected: false });
+    logger.error(err);
   }
 };
 
@@ -107,13 +99,6 @@ export const tryDisconnect = async ({ connectButton, actionButton }) => {
     updateServerStatus({ isConnected: false });
     actionButton.disabled = true;
   } catch (err) {
-    console.log(`error trying to disconnect`);
+    logger.error(`error trying to disconnect`);
   }
 };
-
-// export const testPubSub = async () => {
-//   const conn = await getConnection(DEFAULT_SERVERS);
-//   const subject = 'hello';
-//   subscribe({ conn, subject });
-//   publish({ conn, subject, msg: 'world!' });
-// };

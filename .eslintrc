@@ -25,6 +25,7 @@
       }
     ],
     "import/extensions": 0,
+    "import/prefer-default-export": false,
     "no-underscore-dangle": 0,
     "class-methods-use-this": "off",
     "arrow-body-style": "off",
