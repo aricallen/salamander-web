@@ -1,11 +1,11 @@
 import { tryConnect, publish, getDefaultNatsUrl, getConnection, tryDisconnect } from './lib.js';
 
 const updateOutput = (fields) => {
-  const output = document.getElementById('output');
-  output.innerHTML = `<span>Successfully published message to '${fields.subject.value}'<span/>`;
-  window.setTimeout(() => {
-    output.innerHTML = '';
-  }, 1500);
+  const output = document.getElementById('log');
+  output.innerHTML += `<p>
+    Successfully published message to '${fields.subject.value}':<br/>
+    Message: '${fields.message.value}'
+  </p>`;
 };
 
 /**
