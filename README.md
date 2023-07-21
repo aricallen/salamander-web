@@ -4,10 +4,12 @@ Playground for several proof-of-concepts for interacting with nats server throug
 
 ## Examples
 
-**Simpl Pub-Sub**
+**Simple Pub-Sub**
 
-Currently works locally. Also tried to use [github pages](https://aricallen.github.io/salamander-web/) but
-`wss://demo.nats.io:443` was timing out. Not sure if its a thing...
+Example: [github pages](https://aricallen.github.io/salamander-web/)but
+`wss://demo.nats.io:8443` will be set as the default nats url
+
+Or follow the instructions below to run locally
 
 ```sh
 # clone repo locally
